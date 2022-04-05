@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import create from 'zustand'
+import {devtools} from "zustand/middleware";
 
+const useStore = create(devtools((set)=>({
+  count : 0,
+  up(){
+      set((state) => ({count : state.count + 1}))
+  }
+})))
 function App() {
+  const {count, up} = useStore();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <button onClick={() => {up();}}>버튼</button>
+      <p>사람 : {count}</p>
+      <Card></Card>
     </div>
   );
 }
+
+function Card() {
+    const {count} = useStore();
+  return (
+      <div className="App">
+        <p>카드 : {count}</p>
+      </div>
+  );
+}
+
+
 
 export default App;
